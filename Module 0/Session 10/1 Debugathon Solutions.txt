@@ -1,0 +1,66 @@
+Debugathon Solutions:
+
+Exercise 1 Corrected Function:
+def count_words(text):
+    lower_text = text.lower()
+    list_words =  lower_text.split()
+    
+    from collections import defaultdict
+    word_dictionary = defaultdict(int)
+    for word in list_words:
+        word_dictionary[word] += 1
+    return(word_dictionary)
+
+
+------------------------------------------------------
+
+
+Exercise 2 Corrected Function:
+
+def fibonacci_gt(n, t1, t2):
+    if n<0: 
+        print("Incorrect input") 
+    elif n == 0: 
+        return t1
+    elif n == 1: 
+        return t2
+    else: 
+        return fibonacci_gt(n-1,t1,t2)**2 + fibonacci_gt(n-2,t1,t2)
+
+def generate_numbers(a, b):
+    numbers = list()
+    for i in range(7):
+        numbers.append(round(fibonacci_gt(i,a,b),3))
+    return numbers
+
+
+------------------------------------------------------
+
+
+Exercise 3 Corrected Function:
+
+def make_money(prices): ## `prices` is a list
+    min_price = prices[0]
+    from math import inf
+    max_profit = -inf
+    for i in range(len(prices)):
+        if (prices[i] < min_price):
+            min_price = prices[i]
+        elif prices[i] - min_price > max_profit:
+            max_profit = prices[i] - min_price
+    return max_profit
+
+
+------------------------------------------------------
+
+
+Exercise 4 Corrected Function: 
+
+def initialise_board(size,position):
+    board = [['']*size for i in range(size)]
+    a = position[0]
+    b = position[1]
+    board[a][b] = "X"
+    return(board)
+
+
