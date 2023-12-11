@@ -1,0 +1,34 @@
+
+EXERCISE 2 (3 points):
+
+3 things are incorrect:
+
+1. Need to make sure city with the closest euclidean distance lies within the same country as our poi (compare their country codes before calculating the euclidean distance)
+
+2. Need to update the euclid_dist to be the new smallest euclidean distance for a given poi if it is found to be smaller. So if calc_euclid_dist < euclid_dist, then euclid_dist = calc_euclid_dist
+
+3. Euclid_dist needs to be initialized to infinity within the poi For loop, not beforehand. Because we want to find the closest distance for each poi, not over all pois.
+
+--------------------------------------------------------
+
+EXERCISE 8 (2 points):
+
+3 things are incorrect:
+
+1. If user_id is NOT in visit_vectors, then you need to set component_0 = 0
+
+2. component_2 should be set to max_sim_score, NOT current_sim_score
+
+3. Tuple should be (component_0, component_1, component_2), NOT
+(component_2, component_1, component_0)
+
+
+--------------------------------------------------------
+
+EXERCISE 9 (3 points):
+
+2 things are incorrect:
+
+1. Need to check first if the input user_id is in visit_vectors. If it is not, then we need to stop and just return an empty suggestion_list
+
+2. Need to check if potential_friend not in already_friends AND that potential_friend != our input user_id.

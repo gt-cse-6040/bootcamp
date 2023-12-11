@@ -1,0 +1,22 @@
+
+EXERCISE 3 (2 point):
+
+1 thing is incorrect:
+Need to check if poi_id is in pois before trying to grab country code
+
+--------------------------------------------------------
+
+EXERCISE 4 (2 point):
+
+1 thing is incorrect:
+Need to initialize empty dictionary before For loop, NOT during it. Overwriting true_dict at each iteration if not.
+
+--------------------------------------------------------
+
+EXERCISE 7 (2 point):
+
+1 thing is incorrect:
+Need to only build visit vectors for user ids in 'users' NOT for all user ids in 'checkins'. So instead you should iterate over 'users' or double check that a given user id is in 'users' before creating a visit vector for that user.
+
+The demo cell still works correctly because the extra user's pois were not in  'pois' but the test cell fails
+
