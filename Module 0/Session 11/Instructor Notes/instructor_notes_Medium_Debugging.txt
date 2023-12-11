@@ -18,5 +18,4 @@ EXERCISE 7 (2 point):
 1 thing is incorrect:
 Need to only build visit vectors for user ids in 'users' NOT for all user ids in 'checkins'. So instead you should iterate over 'users' or double check that a given user id is in 'users' before creating a visit vector for that user.
 
-The demo cell still works correctly because the extra user's pois were not in  'pois' but the test cell fails
-
+The demo cell still works correctly because the extra user's pois were not in  'pois'. The test cell will fail though. Highlight again that passing demo cell is not sufficient testing for your solution.
