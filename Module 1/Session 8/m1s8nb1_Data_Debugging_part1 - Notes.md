@@ -7,22 +7,11 @@ Notes:
 - Need to include the GROUP BY clause.
 - Need to add an alias so that COUNT(*) is named `count`.
 
+```python
 def count_interactions_by(col, conn):
     query = f"SELECT {col}, COUNT(*) AS count FROM Interactions GROUP BY {col}"
     return pd.read_sql(query, conn)
-
-
-------------------------------------------------------
-
-
-## Exercise 4 Corrected Function:
-
-Notes:
-- Need to WHERE clause to specify *rating*, not *user_id*
-- WHERE clause needs to be `rating >= 4`, not just `rating > 4`.
-
-def form_analysis_sample(conn):
-    return pd.read_sql("SELECT * FROM Interactions WHERE rating >= 4", conn)
+```
 
 
 ------------------------------------------------------
@@ -39,6 +28,7 @@ Notes:
 - The variables have "ID" in uppercase. They need to be
   lowercase.
 
+```python
 def assign_communities(communities):
     from pandas import DataFrame
     all_uids = []
@@ -47,6 +37,7 @@ def assign_communities(communities):
         all_uids += list(uids)
         all_cids += [cid] * len(uids)
     return DataFrame({'user_id': all_uids, 'comm_id': all_cids})
+```
 
 
 ------------------------------------------------------
@@ -57,7 +48,7 @@ def assign_communities(communities):
 Notes:
 - We need to index by only the columns we're interested in.
   Do this by specifying our desired values and appending
-  df.groupby('comm_id')[VALUES] to the third line of the
+  `df.groupby('comm_id')[VALUES]` to the third line of the
   function body.
 - We need to reset our index so that it matches the
   structure of the desired output. Add the `.reset_index()`
@@ -66,10 +57,12 @@ Notes:
   inner join. Remove the `how='outer'` parameter from the
   first line.
 
+```python
 def means_by_community(intdf, comdf):
     ### BEGIN SOLUTION
     VALUES = ['is_read', 'rating', 'is_reviewed']
     df = intdf.merge(comdf, on='user_id')
     df = df.groupby('comm_id')[VALUES].mean().reset_index()
     return df
+```
 
