@@ -1,0 +1,95 @@
+m1s9nb2_Data_Debugging_part2 Solutions:
+
+Exercise 1 Corrected Function:
+
+Notes: 
+- Step #2: JOIN between services and active_promos on customer_id AND service
+- Step #3: we want the prices for the service/tier/promo combo
+- Step #4: The pitfall of working with SQL, it changes the datatypes. Need to convert final df back to strings
+
+def denormalize(customers, services, active_promos, prices):
+    conn = dfs_to_conn({'customers': customers, 'services': services, 'active_promos': active_promos, 'prices': prices})
+    query = '''
+    SELECT
+        c.id
+      , c.paid  
+      , s.service
+      , s.tier
+      , ap.promo
+      , p.price
+    FROM customers c
+    JOIN services s
+      ON c.id = s.cust_id
+    JOIN active_promos ap
+      ON c.id = ap.cust_id
+      AND s.service = ap.service
+    JOIN prices p
+      ON s.service = p.service
+      AND s.tier = p.tier
+      AND ap.promo = p.promo
+    '''
+    
+    df = pd.read_sql_query(query, conn)
+    df = df.astype('string')
+    return df
+
+
+------------------------------------------------------
+
+
+Exercise 3 Corrected Function:
+
+Notes:
+- Step 1a: list is assigned an integer. Remove this. Restart kernel if necessary.
+- Step 2b: = instead of ==
+- Step 3: dfs swapped in return
+
+def partition_journal(df, audit_cols, existing_journal=None):
+    if existing_journal is None:
+        df_cols = list(df.columns)
+        empty_journal_cols = df_cols + audit_cols
+        existing_journal = pd.DataFrame(columns=empty_journal_cols)
+    
+    historical_journal = existing_journal[existing_journal['exp_dt'] != '9999-12-31']
+    active_journal = existing_journal[existing_journal['exp_dt'] == '9999-12-31']
+    
+    return (historical_journal, active_journal)
+
+
+------------------------------------------------------
+
+
+Exercise 5 Corrected Function:
+
+Notes:
+- Step 1a: Need the right column names for the empty_df
+- Step 3: Only want 1 Series returned. Need to use column-wise .any() to check equality
+- Step 4: Need to use loc, not iloc
+
+### Exercise 5 solution
+def compare_changes(compare_new_df, compare_old_df, audit_cols):
+    
+    # check for empty inputs
+    if compare_new_df.shape[0] == compare_old_df.shape[0] == 0:
+        return (compare_new_df.copy(), compare_new_df.copy(), compare_new_df.copy())
+    
+    # find cols that are not in audit_cols
+    compare_new_cols = list(compare_new_df.columns)
+    cols = []
+    for i in compare_new_cols:
+        if i not in audit_cols:
+            cols.append(i)
+    
+    # create boolean mask - True when there is any difference between the two frames, ignoring audit_cols
+    different = (compare_new_df[cols] != compare_old_df[cols]).any(axis=1)
+    
+    # use different to partition the dfs
+    unchanged = compare_new_df.loc[~different, :]
+    old_changed = compare_old_df.loc[different, :]
+    new_changed = compare_new_df.loc[different, :]
+    
+    # return
+    return (unchanged, old_changed, new_changed) 
+
+
+------------------------------------------------------
