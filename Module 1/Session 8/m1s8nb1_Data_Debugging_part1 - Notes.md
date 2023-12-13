@@ -13,6 +13,45 @@ def count_interactions_by(col, conn):
     return pd.read_sql(query, conn)
 ```
 
+------------------------------------------------------
+
+## Exercise 5 Corrected Function
+
+Notes:
+- We need to include records which are greater than
+  or equal to our threshold, not just greater than
+  the threshold.
+  `uudf = uudf[uudf['count'] > threshold]` needs to be
+  changed.
+- We need a line which removes user similarities with
+  themselves.
+- Our reasoning about the symmetric dataframe is
+  incorrect. The following lines should be removed:
+```python
+  symmetric_uudf = uudf.rename(columns={
+      "user_id_x": "user_id_y",
+      "user_id_y": "user_id_x"}
+  )
+  uudf = pd.concat((uudf, symmetric_uudf))
+```
+
+Here is the correct solution:
+
+```python
+### Exercise 5 solution
+def connect_users(ubdf, threshold):
+    ### BEGIN SOLUTION
+    uudf = ubdf.merge(ubdf, on='book_id') \
+               .groupby(['user_id_x', 'user_id_y']) \
+               .size() \
+               .reset_index() \
+               .rename(columns={0: 'count'})
+    uudf = uudf[uudf['user_id_x'] != uudf['user_id_y']]
+    uudf = uudf[uudf['count'] >= threshold]
+    uudf = uudf.reset_index(drop=True)
+    return uudf
+    ### END SOLUTION
+```
 
 ------------------------------------------------------
 
@@ -20,6 +59,9 @@ def count_interactions_by(col, conn):
 ## Exercise 6 Corrected Function:
 
 Notes:
+- We need to make `all_cids` the length of the `uids` variable,
+  not the `communities` variable. Change `len(communities)` to
+  len(`uids`). 
 - The comm_id variable is a float instead of an integer.
   It needs to be converted to an int type.
   Better practice is to use `enumerate` instead of manually
@@ -38,7 +80,6 @@ def assign_communities(communities):
         all_cids += [cid] * len(uids)
     return DataFrame({'user_id': all_uids, 'comm_id': all_cids})
 ```
-
 
 ------------------------------------------------------
 
