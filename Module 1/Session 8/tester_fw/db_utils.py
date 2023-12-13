@@ -12,7 +12,7 @@ def status_msg(s, verbose=True, **kwargs):
 # === Input/output === #
 
 # def load_df_from_file(basename, dirname='resource/asnlib/publicdata/', abort_on_error=False, verbose=False):
-def load_df_from_file(basename, dirname='', abort_on_error=False, verbose=False):
+def load_df_from_file(basename, dirname='resources/', abort_on_error=False, verbose=False):
     from os.path import isfile
     from dill import loads
     from pandas import DataFrame
@@ -33,7 +33,7 @@ def load_df_from_file(basename, dirname='', abort_on_error=False, verbose=False)
     return df
 
 # def load_obj_from_file(basename, dirname='resource/asnlib/publicdata/', abort_on_error=False, verbose=False):
-def load_obj_from_file(basename, dirname='', abort_on_error=False, verbose=False):
+def load_obj_from_file(basename, dirname='resources/', abort_on_error=False, verbose=False):
     from os.path import isfile
     from dill import loads
     from pandas import DataFrame
@@ -55,7 +55,7 @@ def load_obj_from_file(basename, dirname='', abort_on_error=False, verbose=False
     return df
 
 # def load_table_from_db(table_name, basename, dirname="resource/asnlib/publicdata/", verbose=False):
-def load_table_from_db(table_name, basename, dirname="", verbose=False):
+def load_table_from_db(table_name, basename, dirname="resources/", verbose=False):
     from sqlite3 import connect
     from pandas import read_sql
     filename = f"{dirname}{basename}"
