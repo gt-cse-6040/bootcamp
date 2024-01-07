@@ -1,0 +1,3853 @@
+{
+    "voccells": [
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "0"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "notebook_header"
+                    ]
+                },
+                "source": [
+                    "# Final Exam, Fall 2023: Exam Analysis\n",
+                    "_Version 1.0_\n",
+                    "\n",
+                    "*All of the header information is important. Please read it..*\n",
+                    "\n",
+                    "**Topics, number of exercises:** This problem builds on your knowledge of pandas, Numpy, and linear regression. It has **12 exercises** exercises, numbered 0 to **11**. There are **22** available points. However, to earn 100% the threshold is **15** points. (Therefore, once you hit **15** points, you can stop. There is no extra credit for exceeding this threshold.)\n",
+                    "\n",
+                    "**Exercise ordering:** Each exercise builds logically on previous exercises, but you may solve them in any order. That is, if you can't solve an exercise, you can still move on and try the next one. Use this to your advantage, as the exercises are **not** necessarily ordered in terms of difficulty. Higher point values generally indicate more difficult exercises. \n",
+                    "\n",
+                    "**Demo cells:** Code cells starting with the comment `### define demo inputs ###` load results from prior exercises applied to the entire data set and use those to build demo inputs. These must be run for subsequent demos to work properly, but they do not affect the test cells. The data loaded in these cells may be rather large (at least in terms of human readability). You are free to print or otherwise use Python to explore them, but we did not print them in the starter code.\n",
+                    "\n",
+                    "**Debugging you code:** Right before each exercise test cell, there is a block of text explaining the variables available to you for debugging. You may use these to test your code and can print\/display them as needed (careful when printing large objects, you may want to print the head or chunks of rows at a time).\n",
+                    "\n",
+                    "**Exercise point breakdown:**\n",
+                    "\n",
+                    "- Ex. 0: **1 (FREE)** point(s)\n",
+                    "- Ex. 1: **2** point(s)\n",
+                    "- Ex. 2: **1** point(s)\n",
+                    "- Ex. 3: **1 (FREE)** point(s)\n",
+                    "- Ex. 4: **2** point(s)\n",
+                    "- Ex. 5: **1** point(s)\n",
+                    "- Ex. 6: **1 (FREE)** point(s)\n",
+                    "- Ex. 7: **3** point(s)\n",
+                    "- Ex. 8: **3** point(s)\n",
+                    "- Ex 9: **2** point(s)\n",
+                    "- Ex 10: **2** point(s)\n",
+                    "- Ex. 11: **3** point(s)\n",
+                    "\n",
+                    "Exercises 0, 3, and 6 involve reading only (_no coding_), so they are \"free\" points. However, you still need to run the associated test cells and submit to get those points.\n",
+                    "\n",
+                    "**Final reminders:** \n",
+                    "\n",
+                    "- We recommend submitting after **every exercise.**\n",
+                    "- Please review the generated grade report after you submit to see what errors were returned.\n",
+                    "- Stay calm, skip problems as needed, and take short breaks at your leisure.\n"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "1"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "topic_intro"
+                    ]
+                },
+                "source": [
+                    "# Overview: Exam Examination #\n",
+                    "\n",
+                    "An instructor for another course has asked you to help analyze some of their exam data. The exams were completed electronically, in a format similar to our class's, but with some twists:\n",
+                    "\n",
+                    "- The class has multiple exams, named `'exam1'`, `'exam2'`, and so on. Exams were timed, but with different time limits for each exam.\n",
+                    "- Each exam consisted of multiple \"milestones\" (or \"problems\"). There were different numbers of problems for each exam, and different problems can be worth different numbers of points. (Thus, the total points on different exams could also differ.)\n",
+                    "- Students were allowed to work on the problems in any order and submit in any order, similar to our exams.\n",
+                    "\n",
+                    "The dataset itself has **two** main parts:\n",
+                    "- The **grades data**, which shows, for each student, exam, and problem, how many points they scored.\n",
+                    "- The **timing data**, which shows, for each student and problem, when (i.e., at what date and time) the student started the problem and made their last submission thereof.\n",
+                    "\n",
+                    "Each exam has its own grading and timing data, as you'll see.\n",
+                    "\n",
+                    "**Your overall task:** You will help clean up and analyze this data, culminating in an assessment, based on linear regression, to see whether or not the last exam score can be predicted from the scores and timing information of earlier exams."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "2"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "# Setup #\n",
+                    "\n",
+                    "To get started, run the following code cells. Take note of preloaded modules, as it's likely you'll want to use them."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "3"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:32:57.738910Z",
+                        "start_time": "2023-12-07T06:32:55.282275Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "global_imports"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Global Imports\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "%load_ext autoreload\n",
+                    "%autoreload 2\n",
+                    "\n",
+                    "if False: # set to True to set up\n",
+                    "    REGENERATE_OUTPUTS = False\n",
+                    "\n",
+                    "    import dill\n",
+                    "    import hashlib\n",
+                    "    def hash_check(f1, f2, verbose=True):\n",
+                    "        with open(f1, 'rb') as f:\n",
+                    "            h1 = hashlib.md5(f.read()).hexdigest()\n",
+                    "        with open(f2, 'rb') as f:\n",
+                    "            h2 = hashlib.md5(f.read()).hexdigest()\n",
+                    "        if verbose:\n",
+                    "            print(h1)\n",
+                    "            print(h2)\n",
+                    "        assert h1 == h2, f'The file \"{f1}\" has been modified'\n",
+                    "    with open('resource\/asnlib\/public\/hash_check.pkl', 'wb') as f:\n",
+                    "        dill.dump(hash_check, f)\n",
+                    "    del hash_check\n",
+                    "    with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "        hash_check = dill.load(f)\n",
+                    "    for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "        hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "    for fname in ['__init__.py', 'utils.py']:\n",
+                    "        hash_check(f'cse6040\/{fname}', f'resource\/asnlib\/public\/cse6040\/{fname}')\n",
+                    "    del hash_check\n",
+                    "### END HIDDEN TESTS\n",
+                    "\n",
+                    "# Modules you may find useful:\n",
+                    "import pandas as pd\n",
+                    "import numpy as np\n",
+                    "\n",
+                    "# Some extra functions that this notebook needs:\n",
+                    "import cse6040.utils\n",
+                    "from pprint import pprint # Pretty-printer\n",
+                    "\n",
+                    "# Load the dataset:\n",
+                    "print(\"\\n==> Loading the dataset...\")\n",
+                    "from cse6040.examdata import load_dataset\n",
+                    "grades_by_exid, times_by_exid = load_dataset()\n",
+                    "print(\"\\n==> Done executing the setup and ready for take-off!\")"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "4"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "# Ex. 0 (**1 pt; FREE**): Understanding the **`grades`** dataframe #\n",
+                    "\n",
+                    "This exercise involves looking at the grades data; you don't need to write any code. However, you **do** need to run the test cell **and** submit to get the free point(s)."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "5"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "The global variable `grades_by_exam` is a dictionary of pandas dataframes. Each key is an exam ID (e.g., `'exam2'`), and each value is a dataframe holding the grading data for that exam. Let's take a look at an example, which are the grades for the exam with exam id `'exam1'`."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "6"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:32:57.753696Z",
+                        "start_time": "2023-12-07T06:32:57.740369Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "list(grades_by_exid.keys())"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "7"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "Evidently, there are three exams in this dataset. However, the code you write later should **not** assume three exams unless otherwise specified."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "8"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:32:57.771165Z",
+                        "start_time": "2023-12-07T06:32:57.754585Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "grades_by_exid['exam1']"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "9"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "> **Note:** The data has been anonymized with fake email addresses. Any resemblance to actual email addresses is purely coincidental.\n",
+                    "\n",
+                    "**Observations:**\n",
+                    "* Recall that we are looking at just _one_ exam, `'exam1'`, in the example above. There are similar dataframes for `'exam2'` and `'exam3'`.\n",
+                    "* There is one row per student, each identified by their unique email address. _(Note: These are anonymized with fake email addresses. Any resemblance to real addresses is purely coincidental.)_\n",
+                    "* Each column corresponds to an exam problem or \"milestone.\" The value is the number of points the student got from an autograder.\n",
+                    "* If the student did not submit a solution for a problem, the score appears as a string with exactly eight hyphens: `'--------'`. For example, see row 1, where `juan.quay@aol.com` did not submit `problem4`.\n",
+                    "* Some students (probably) dropped the class or did not attempt the exam at all. In those cases, all problem scores for that student are missing. For instance, see rows 1544-1548 in the output."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "10"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 0 test (FREEBIE) ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "11"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:32:57.786211Z",
+                        "start_time": "2023-12-07T06:32:57.772865Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex0",
+                        "locked": true,
+                        "points": "1",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex0 ###\n",
+                    "print('This exercise is free. To get the points, please run this cell _and_ submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "12"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 1 (**2 pt**): `remove_invalid_grades` #\n",
+                    "\n",
+                    "Given a grades dataframe, `gdf`, complete the function,\n",
+                    "```python\n",
+                    "def remove_invalid_grades(gdf):\n",
+                    "    ...\n",
+                    "```\n",
+                    "so that it returns clean copy of `gdf`.\n",
+                    "\n",
+                    "**Input:** A grades dataframe, `gdf`. It will have a column named `'Email'` and one or more columns named `'problem#'` where `#` is an integer.\n",
+                    "\n",
+                    "**Your task:** Copy this dataframe and clean it as follows:\n",
+                    "- Any problem that was not submitted, which will equal a string of 8 hyphens, `'--------'`, should be replaced with a not-a-number (NaN) value, i.e., a Numpy `np.nan`.\n",
+                    "- Any row where _none_ of the problems were submitted should be removed completely.\n",
+                    "- All problem columns should be converted to have a `.dtype` of `float`.\n",
+                    "\n",
+                    "**Output:** Return a clean tibble _copy_, without modifying the input `gdf`. It should contain exactly the same columns as the input, even if the result is an empty dataframe, and the `.dtype` should be as specified above.\n",
+                    "\n",
+                    "**Caveat(s)\/comment(s)\/hint(s):**\n",
+                    "1. Since we are asking for a tibble output, you should reset the index.\n",
+                    "2. The dataframe `.replace()` and `.filter()` methods may be helpful (but are not required).\n",
+                    "3. You may assume there is at least 1 problem column. **However**, **do not** assume the input has a fixed number of problems. That is, the input might have `'problem0'` through `'problem4'` as shown in Exercise 0, but it might also only have, say, two columns named `'problem1'` and `'problem3'`, or it might have four problem columns named `'problem0'`, `'problem1'`, `'problem25'`, and `'problem234'`. Your code should robustly handle these cases. The dataframe's `.dropna()` method may be helpful."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "13"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 1 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "14"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:32:57.806520Z",
+                        "start_time": "2023-12-07T06:32:57.787289Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Define demo inputs ###\n",
+                    "demo_gdf_ex1 = grades_by_exid['exam1'].loc[[0, 1, 2, 683, 3, 957, 4, 1546]].reset_index(drop=True)\n",
+                    "demo_gdf_ex1"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "15"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "Consider the demo input, `demo_gdf_ex1`, shown above. A correct output is:\n",
+                    "\n",
+                    "|    | Email                     |   problem0 |   problem1 |   problem2 |   problem3 |   problem4 |\n",
+                    "|---:|:--------------------------|-----------:|-----------:|-----------:|-----------:|-----------:|\n",
+                    "|  0 | sammie.jaydaa@gmail.com   |          7 |         10 |       10   |         10 |         10 |\n",
+                    "|  1 | juan.quay@aol.com         |         10 |         10 |        6.5 |          0 |        nan |\n",
+                    "|  2 | gino.branston@gatech.edu  |         10 |          5 |       10   |         10 |         10 |\n",
+                    "|  3 | danny.jameriah@gmail.com  |          7 |        nan |      nan   |        nan |        nan |\n",
+                    "|  4 | robert.gioanna@gatech.edu |         10 |         10 |       10   |         10 |         10 |\n",
+                    "|  5 | adam.evemarie@gmail.com   |         10 |         10 |       10   |         10 |         10 |\n",
+                    "\n",
+                    "Observe that rows 5 and 7 from the input are removed entirely since all of their problem values are missing. By contrast, rows 1 and 3 from the input have some non-NaN values and thus are retained.\n",
+                    "\n",
+                    "In addition, the output types (inspected via `.info()`) should match the following:\n",
+                    "```\n",
+                    " #   Column    Non-Null Count  Dtype  \n",
+                    "---  ------    --------------  -----  \n",
+                    " 0   Email     6 non-null      object \n",
+                    " 1   problem0  6 non-null      float64\n",
+                    " 2   problem1  5 non-null      float64\n",
+                    " 3   problem2  5 non-null      float64\n",
+                    " 4   problem3  5 non-null      float64\n",
+                    " 5   problem4  4 non-null      float64\n",
+                    "dtypes: float64(5), object(1)\n",
+                    "```"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "16"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 1 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "18"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "<!-- Test Cell Boilerplate -->\n",
+                    "## Ex. 1 test ##\n",
+                    "The cell below will test your solution for Exercise 1. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "19"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:00.705954Z",
+                        "start_time": "2023-12-07T06:33:00.246925Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex1",
+                        "locked": true,
+                        "points": "2",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex1\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_1', \n",
+                    "    'func': remove_invalid_grades, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'gdf':{\n",
+                    "            'dtype': 'df', # data type of param.\n",
+                    "            'check_modified': True,\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': False, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 10 ** (-6)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "20"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 1 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `valid_grades_by_exid`. It is the result of a correct implementation of `remove_invalid_grades` when run on `grades_by_exid` from the full dataset.  Subsequent cells use it, so please run this cell regardless of whether you completed this exercise."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "21"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:00.729716Z",
+                        "start_time": "2023-12-07T06:33:00.706953Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "valid_grades_by_exid = cse6040.utils.load_obj_from_file('valid_grades.dill')\n",
+                    "\n",
+                    "# Example:\n",
+                    "display(valid_grades_by_exid['exam1'].iloc[:4])\n",
+                    "valid_grades_by_exid['exam1'].info()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "22"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 2 (**1 pt**): `calc_earned_points` #\n",
+                    "\n",
+                    "Suppose you have a grades dataframe, `valid_gdf`, having only valid rows as calculated in Exercise 1. Complete the function,\n",
+                    "```python\n",
+                    "def calc_earned_points(valid_gdf):\n",
+                    "    ...\n",
+                    "```\n",
+                    "so that it returns a new copy of `valid_gdf` with an additional column holding the total points earned.\n",
+                    "\n",
+                    "**Input:** A dataframe `valid_gdf` with only valid rows, per Exercise 1.\n",
+                    "\n",
+                    "**Your task:** Create a copy and sum the points earned by each student.\n",
+                    "\n",
+                    "**Output:** Return a new tibble with the same columns as `valid_gdf` _plus_ an additional column, `'Earned'`, of `.dtype` `float`. This column should contain the student's total score, that is, the sum of points on their problems. Any NaN values should be ignored. You should not modify the input `valid_gdf`."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "23"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 2 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "24"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:00.749349Z",
+                        "start_time": "2023-12-07T06:33:00.732439Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Define demo inputs ###\n",
+                    "demo_valid_gdf_ex2 = valid_grades_by_exid['exam1'].sample(6, random_state=3_456_789_012).reset_index(drop=True)\n",
+                    "demo_valid_gdf_ex2"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "25"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "The demo included in the solution cell below should display the following output:\n",
+                    "\n",
+                    "|    | Email                    |   problem0 |   problem1 |   problem2 |   problem3 |   problem4 |   Earned |\n",
+                    "|---:|:-------------------------|-----------:|-----------:|-----------:|-----------:|-----------:|---------:|\n",
+                    "|  0 | rene.amritpal@gmail.com  |         10 |         10 |       10   |         10 |         10 |     50   |\n",
+                    "|  1 | albert.averley@gmail.com |         10 |          2 |        8   |         10 |         10 |     40   |\n",
+                    "|  2 | mary.yahshua@gatech.edu  |          7 |          2 |        6.5 |          5 |        nan |     20.5 |\n",
+                    "|  3 | jillian.myler@gmail.com  |         10 |         10 |       10   |         10 |          1 |     41   |\n",
+                    "|  4 | raina.sheehan@gmail.com  |         10 |         10 |       10   |          5 |         10 |     45   |\n",
+                    "|  5 | allison.link@yahoo.com   |          7 |          2 |      nan   |        nan |        nan |      9   |\n",
+                    "\n",
+                    "> **Note:** Although the values appear to include integers, in fact, the `.dtype` of the columns should be `float`."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "26"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 2 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "28"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "<!-- Test Cell Boilerplate -->\n",
+                    "## Ex. 2 test ##\n",
+                    "The cell below will test your solution for Exercise 2. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "29"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.400103Z",
+                        "start_time": "2023-12-07T06:33:01.010175Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex2",
+                        "locked": true,
+                        "points": "1",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex2 ###\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_2', \n",
+                    "    'func': calc_earned_points, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'valid_gdf':{\n",
+                    "            'dtype':'df', # data type of param.\n",
+                    "            'check_modified':True,\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': False, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 10 ** (-6)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "30"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 2 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `earned_by_exid`. It is the result of a correct implementation of `calc_earned_grades` when run on `valid_grades_by_exid` from the full dataset. Subsequent cells use it, so please run this cell regardless of whether you completed this exercise."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "31"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.435159Z",
+                        "start_time": "2023-12-07T06:33:01.401545Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "earned_by_exid = cse6040.utils.load_obj_from_file('earned_grades.dill')\n",
+                    "\n",
+                    "# Example:\n",
+                    "display(earned_by_exid['exam1'].iloc[:4])\n",
+                    "earned_by_exid['exam1'].info()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "32"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 3 (**1 FREE pt**): Understanding the `timings` dataset #\n",
+                    "\n",
+                    "This exercise involves looking at the grades data; you don't need to write any code. However, you **do** need to run the test cell **and** submit to get the free point(s)."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "33"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "Similar to the grades dataset (see Ex. 0), each exam has a **timings** dataset. Here's what it looks like for `'exam1'`:"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "34"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.459525Z",
+                        "start_time": "2023-12-07T06:33:01.437018Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "demo_times3_ex3 = times_by_exid['exam3']\n",
+                    "demo_times3_ex3"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "35"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "**Observations:**\n",
+                    "- Each row is for a student and a problem (\"milestone\" column). There may be multiple rows for the same student, but a (student, problem) pair appears _at most_ once.\n",
+                    "- The `'start date-time'` and `'submit date-time'` columns hold timestamps, and their `.dtypes` are special pandas [`Timestamp`](https:\/\/pandas.pydata.org\/docs\/reference\/api\/pandas.Timestamp.html#pandas.Timestamp) objects. The mini-tutorial below shows you how they work.\n",
+                    "- The `'start date-time'` value is when the student began the exam. It will have the same value for all rows of a given student.\n",
+                    "- The `'submit date-time'` value is the timestamp of the student's _last_ submission for that problem. That is, only one submission is recorded per student and problem."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "36"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "**Implications:** One consequence of the data we have is that we cannot really know how the student navigated the exam: we know when they started, but if they jumped around or submitted a problem multiple times, the only information we have is the _last_ submission for each problem. Nevertheless, we will use the information we have to guess at their timeline, after some clean up."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "37"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "**Timestamps:** The printed timestamps have the following form:\n",
+                    "\n",
+                    "```2018-12-07 18:35:23```\n",
+                    "\n",
+                    "That corresponds to December 7, 2018, at 6:35 pm (and 23 seconds).\n",
+                    "\n",
+                    "Luckily, you don't need to parse timestamps! These objects make it easy to sort and calculate time differences, which is what we'll need. For instance, we can check if one date is larger than another using the usual comparison-operators, like `>` or `<=`:"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "38"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.477865Z",
+                        "start_time": "2023-12-07T06:33:01.461059Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "(demo_times3_ex3['submit date-time'] > demo_times3_ex3['start date-time']).head()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "39"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "And we can subtract times using the usual `-` operator, as we would for integers or floats:"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "40"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.497454Z",
+                        "start_time": "2023-12-07T06:33:01.479049Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "(demo_times3_ex3['submit date-time'] - demo_times3_ex3['start date-time']).head()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "41"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "The difference is stored as a `timedelta64` object. The way to read printed item `0` above is \"20 hours, 45 minutes, and 19 seconds.\"\n",
+                    "\n",
+                    "Time-delta objects can be converted into a regular float representing the number of seconds using a method called `.total_seconds()`:"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "42"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.512775Z",
+                        "start_time": "2023-12-07T06:33:01.498793Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "(demo_times3_ex3['submit date-time'].iloc[0] - demo_times3_ex3['start date-time'].iloc[0]).total_seconds()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "43"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "We will need this transformation to simplify some calculations later on, so tuck this fact away."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "44"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "**Some messiness:** The data has some \"impurities.\" In particular, check out the data for `'kenneth.bryland@gatech.edu'`:"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "45"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.538205Z",
+                        "start_time": "2023-12-07T06:33:01.514499Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "demo_times3_ex3_messy = demo_times3_ex3.loc[[206, 1111, 1780, 2511, 3375]]\n",
+                    "demo_times3_ex3_messy"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "46"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "Observe that their `'problem0'` and `'problem1'` submission times occur **before** their start times, which we confirm next:"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "47"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.554639Z",
+                        "start_time": "2023-12-07T06:33:01.539503Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "demo_times3_ex3_messy['submit date-time'] > demo_times3_ex3_messy['start date-time']"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "48"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "While it turns out there is a reason for that, we will want to omit cases like that to simplify our analysis."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "49"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 3 test (FREEBIE) ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "50"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.573419Z",
+                        "start_time": "2023-12-07T06:33:01.557815Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex3",
+                        "locked": true,
+                        "points": "1",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex3 ###\n",
+                    "print('This exercise is free. To get the points, please run this cell _and_ submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "51"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 4 (**2 pts**): `remove_causality_violators` #\n",
+                    "\n",
+                    "Suppose you are given a timings dataframe, `tdf`, per Exercise 3. Complete the function,\n",
+                    "```python\n",
+                    "def remove_causality_violators(tdf):\n",
+                    "    ...\n",
+                    "```\n",
+                    "so that it returns a new, cleaned copy that omits records for any student who has timestamps that \"violate causality.\" A causality violation means that their submission time is **strictly less** than their start time.\n",
+                    "\n",
+                    "**Input:** A timings dataframe, `tdf`, with the columns `'email'`, `'milestone'`, `'start date-time'`, and `'submit date-time'`.\n",
+                    "\n",
+                    "**Your task:** Identify all students who have any causality violations and omit their rows from the output dataframe.\n",
+                    "\n",
+                    "**Output:** Return a new tibble that includes only rows from `tdf` for students whose problem-records do not violate causality. The output column `.dtypes` should match those of the input. You should not modify the input, `tdf`.\n",
+                    "\n",
+                    "**Comment(s):** If a student has even one problem that violates causality, you should omit _all_ of their rows. That is, we will consider their entire exam data invalid for the purpose of our subsequent analysis."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "52"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 4 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "53"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:01.591166Z",
+                        "start_time": "2023-12-07T06:33:01.574752Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Define demo inputs ###\n",
+                    "demo_tdf_ex4 = times_by_exid['exam3'].loc[[206, 279, 439, 1111, 1344, 1780, 2511, 3224, 3375]].reset_index(drop=True)\n",
+                    "demo_tdf_ex4"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "54"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "The demo included in the solution cell below should display the following output:\n",
+                    "\n",
+                    "|    | email                        | milestone   | start date-time     | submit date-time    |\n",
+                    "|---:|:-----------------------------|:------------|:--------------------|:--------------------|\n",
+                    "|  0 | daniel.tashera@gmail.com     | problem0    | 2018-12-09 01:12:56 | 2018-12-09 02:29:33 |\n",
+                    "|  1 | barbara.wilhemina@gatech.edu | problem0    | 2018-12-10 02:43:28 | 2018-12-10 06:21:30 |\n",
+                    "|  2 | barbara.wilhemina@gatech.edu | problem2    | 2018-12-10 02:43:28 | 2018-12-10 09:09:43 |\n",
+                    "|  3 | barbara.wilhemina@gatech.edu | problem5    | 2018-12-10 02:43:28 | 2018-12-10 09:04:35 |\n",
+                    "\n",
+                    "Observe that `kenneth.bryland@gatech.edu` is omitted from this output because their `'problem0'` and `'problem1'` records violate causality. (Even though their remaining problems _obey_ causality, we still drop them because of the problematic rows.)"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "55"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 4 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "57"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "<!-- Test Cell Boilerplate -->\n",
+                    "## Ex. 4 test ##\n",
+                    "The cell below will test your solution for Exercise 4. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "58"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:02.348914Z",
+                        "start_time": "2023-12-07T06:33:01.963875Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex4",
+                        "locked": true,
+                        "points": "2",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex4\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_4', \n",
+                    "    'func': remove_causality_violators, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'tdf':{\n",
+                    "            'dtype':'df', # data type of param.\n",
+                    "            'check_modified':True,\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': False, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 10 ** (-6)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "59"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 4 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `valid_times_by_exid`. It is the result of a correct implementation of `remove_causality_violaters` when run on `times_by_exid` from the full dataset. Subsequent cells use it, so please run this cell regardless of whether you completed this exercise."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "60"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:02.371417Z",
+                        "start_time": "2023-12-07T06:33:02.350295Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "valid_times_by_exid = cse6040.utils.load_obj_from_file('valid_times.dill')\n",
+                    "\n",
+                    "# Example:\n",
+                    "assert (valid_times_by_exid['exam3']['submit date-time'] >= valid_times_by_exid['exam3']['start date-time']).all()\n",
+                    "display(valid_times_by_exid['exam1'].iloc[:4])\n",
+                    "valid_times_by_exid['exam1'].info()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "61"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 5 (**1 pt**): `clean_times_colnames` #\n",
+                    "\n",
+                    "Let's tidy up the column names for the timings data. Complete the function,\n",
+                    "```python\n",
+                    "def clean_times_colnames(tdf):\n",
+                    "    ...\n",
+                    "```\n",
+                    "to return a new tibble from `tdf` with columns renamed as follows.\n",
+                    "\n",
+                    "* `'email'` => `'Email'`\n",
+                    "* `'milestone'` => `'Milestone'`\n",
+                    "* `'start date-time'` => `'Start'`\n",
+                    "* `'submit date-time'` => `'Submit'`\n",
+                    "\n",
+                    "Element types for the columns (`.dtype`) should be preserved, and the input dataframe should not be modified."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "62"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 5 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "63"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:02.392846Z",
+                        "start_time": "2023-12-07T06:33:02.372532Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### define demo inputs ###\n",
+                    "demo_tdf_ex5 = valid_times_by_exid['exam2'].sample(5, random_state=567_890_123, replace=False).reset_index(drop=True)\n",
+                    "demo_tdf_ex5"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "64"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "The demo included in the solution cell below should display the following output:\n",
+                    "\n",
+                    "|    | Email                       | Milestone   | Start               | Submit              |\n",
+                    "|---:|:----------------------------|:------------|:--------------------|:--------------------|\n",
+                    "|  0 | jazlyn.florin@gmail.com     | problem4    | 2018-11-04 12:45:10 | 2018-11-05 20:50:41 |\n",
+                    "|  1 | christian.miyisha@yahoo.com | problem2    | 2018-11-03 07:38:00 | 2018-11-04 12:21:12 |\n",
+                    "|  2 | taryn.raneshia@yahoo.co.id  | problem0    | 2018-11-04 08:25:24 | 2018-11-05 17:59:02 |\n",
+                    "|  3 | joseph.sherburne@gmail.com  | problem1    | 2018-11-02 16:45:06 | 2018-11-03 01:47:58 |\n",
+                    "|  4 | thomas.dyanni@gmail.com     | problem3    | 2018-11-03 14:20:56 | 2018-11-04 23:31:18 |"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "65"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 5 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "67"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "## Ex. 5 test ##\n",
+                    "The cell below will test your solution for Exercise 5. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "68"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:03.038676Z",
+                        "start_time": "2023-12-07T06:33:02.707015Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex5",
+                        "locked": true,
+                        "points": "1",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex5\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_5', \n",
+                    "    'func': clean_times_colnames, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'tdf':{\n",
+                    "            'dtype':'df', # data type of param.\n",
+                    "            'check_modified':True,\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': False, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 10 ** (-6)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "69"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 5 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `clean_times_by_exid`. It is the result of a correct implementation of `clean_times_colnames` when run on `valid_times_by_exid` from the full dataset. Subsequent cells use it, so please run this cell regardless of whether you completed this exercise."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "70"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:03.061494Z",
+                        "start_time": "2023-12-07T06:33:03.039851Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "clean_times_by_exid = cse6040.utils.load_obj_from_file('clean_times.dill')\n",
+                    "\n",
+                    "# Example:\n",
+                    "display(clean_times_by_exid['exam1'].head())\n",
+                    "clean_times_by_exid['exam1'].info()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "71"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 6 (**1 pt; FREE**): Submission sequences #\n",
+                    "\n",
+                    "Our next analysis will estimate the test-takers' behavior by analyzing their **submission times.**\n",
+                    "\n",
+                    "For example, consider the submission times for `'sherry.ayleigh@aol.com'`, stored in the dataframe `demo_tdf_ex6` below:"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "72"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:03.082746Z",
+                        "start_time": "2023-12-07T06:33:03.063372Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "demo_ex6_tdf = clean_times_by_exid['exam3'].loc[[34, 593, 1624, 2189, 2344, 3122]]\n",
+                    "demo_ex6_tdf"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "73"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "Based on the submission times, ordering the rows by the `'Submit'` timestamp would yield a sensible timeline of submission events:\n",
+                    "\n",
+                    "|      | Email                  | Milestone   | Start               | Submit              |\n",
+                    "|-----:|:-----------------------|:------------|:--------------------|:--------------------|\n",
+                    "|   34 | sherry.ayleigh@aol.com | problem0    | 2018-12-06 08:32:21 | 2018-12-06 09:07:16 |\n",
+                    "|  593 | sherry.ayleigh@aol.com | problem1    | 2018-12-06 08:32:21 | 2018-12-06 10:04:10 |\n",
+                    "| 1624 | sherry.ayleigh@aol.com | problem2    | 2018-12-06 08:32:21 | 2018-12-06 11:30:28 |\n",
+                    "| 3122 | sherry.ayleigh@aol.com | problem5    | 2018-12-06 08:32:21 | 2018-12-06 13:34:13 |\n",
+                    "| 2344 | sherry.ayleigh@aol.com | problem4    | 2018-12-06 08:32:21 | 2018-12-06 17:53:48 |\n",
+                    "| 2189 | sherry.ayleigh@aol.com | problem3    | 2018-12-06 08:32:21 | 2018-12-06 20:19:21 |\n",
+                    "\n",
+                    "We refer to this ordering of submission times as the **submission sequence**. It is our best guess as to how they moved through the exam if we assume they did one problem at a time. From this submission sequence for this student, we might conclude the following."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "74"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "First, the student started the exam at `2018-12-06 08:32:21` and submitted `'problem0'` at `2018-12-06 09:07:16`. That would be:"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "75"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:03.099590Z",
+                        "start_time": "2023-12-07T06:33:03.084547Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "demo_ex6_tdf['Submit'].iloc[0] - demo_ex6_tdf['Start'].iloc[0]"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "76"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "or 34 minutes and 55 seconds, which is also 2,095 seconds = (2095\/3600) ~ 0.582 hours, rounding to three decimal digits. In other words, we will assume that the student started the exam and then spent 0.582 hours on Problem 0."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "78"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 6 test (FREEBIE) ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "79"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:03.125239Z",
+                        "start_time": "2023-12-07T06:33:03.101247Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex6",
+                        "locked": true,
+                        "points": "1",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex6 ###\n",
+                    "print('This exercise is free. To get the points, please run this cell _and_ submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "80"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 7 (**3 pts**): `sequence_submissions` #\n",
+                    "\n",
+                    "Suppose you are given a (clean) timings tibble, `tdf`, such as computed in Exercise 5. Complete the function,\n",
+                    "```python\n",
+                    "def sequence_submissions(tdf):\n",
+                    "    ...\n",
+                    "```\n",
+                    "so that it sequences the submissions for each student and returns a new tibble matching the format described below.\n",
+                    "\n",
+                    "**Input:** A clean timings tibble, `tdf`, with the columns `'Email'`, `'Milestone'`, `'Start'`, and `'Stop'`, per Ex. 5.\n",
+                    "\n",
+                    "**Your task:** For each student, order their submissions and determine the amount of time spent on each problem, as illustrated in Ex. 6.\n",
+                    "\n",
+                    "**Output:** Without modifying the input tibble, return a new tibble with the following columns:\n",
+                    "- `'Email'`, `'Milestone'`, `'Start'`, and `'Submit'`, which keep the same values as given in `tdf`.\n",
+                    "- `'Hours'`, the time **in hours** (a floating-point value) rounded to 3 decimal digits, corresponding to the estimated time spent on each problem.\n",
+                    "\n",
+                    "That is, each row of the output will indicate the estimated time spent by the student on the given problem based on the estimated timeline.\n",
+                    "\n",
+                    "**Additional requirements:** The rows of this new tibble should be **sorted by `'Email'` and `'Submit'` timestamp in ascending order**."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "81"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 7 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "82"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:03.151030Z",
+                        "start_time": "2023-12-07T06:33:03.128298Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Define demo inputs ###\n",
+                    "demo_tdf_ex7 = cse6040.utils.load_df_from_file('demo_tdf_ex7.df')\n",
+                    "demo_tdf_ex7"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "83"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "In the preceding demo input, there are three students: `'sherry.ayleigh@aol.com'`, `'chelsea.jaretzi@utexas.edu'`, and `'jessica.rinda@gatech.edu'`. Observe that\n",
+                    "* `'sherry.ayleigh@aol.com'` submitted Problems 0-5 inclusive.\n",
+                    "* `'chelsea.jaretzi@utexas.edu'` submitted Problems 0, 1, 2, 3, and 5. (So they skipped Problem 4.)\n",
+                    "* `'jessica.rinda@gatech.edu'` submitted Problems 1, 2, and 5. (So they skipped Problems 0, 3, and 4.)\n",
+                    "\n",
+                    "A correct implementation of `sequence_submissions` on this input would produce:\n",
+                    "\n",
+                    "|    | Email                      | Milestone   | Start               | Submit              |   Hours |\n",
+                    "|---:|:---------------------------|:------------|:--------------------|:--------------------|--------:|\n",
+                    "|  0 | chelsea.jaretzi@utexas.edu | problem1    | 2018-12-11 09:50:18 | 2018-12-12 02:34:35 |  16.738 |\n",
+                    "|  1 | chelsea.jaretzi@utexas.edu | problem0    | 2018-12-11 09:50:18 | 2018-12-12 02:40:16 |   0.095 |\n",
+                    "|  2 | chelsea.jaretzi@utexas.edu | problem5    | 2018-12-11 09:50:18 | 2018-12-12 03:45:49 |   1.092 |\n",
+                    "|  3 | chelsea.jaretzi@utexas.edu | problem3    | 2018-12-11 09:50:18 | 2018-12-12 05:49:20 |   2.059 |\n",
+                    "|  4 | chelsea.jaretzi@utexas.edu | problem2    | 2018-12-11 09:50:18 | 2018-12-12 06:17:25 |   0.468 |\n",
+                    "|  5 | jessica.rinda@gatech.edu   | problem1    | 2018-12-07 12:05:41 | 2018-12-07 18:04:19 |   5.977 |\n",
+                    "|  6 | jessica.rinda@gatech.edu   | problem5    | 2018-12-07 12:05:41 | 2018-12-07 18:11:47 |   0.125 |\n",
+                    "|  7 | jessica.rinda@gatech.edu   | problem2    | 2018-12-07 12:05:41 | 2018-12-07 18:21:51 |   0.167 |\n",
+                    "|  8 | sherry.ayleigh@aol.com     | problem0    | 2018-12-06 08:32:21 | 2018-12-06 09:07:16 |   0.582 |\n",
+                    "|  9 | sherry.ayleigh@aol.com     | problem1    | 2018-12-06 08:32:21 | 2018-12-06 10:04:10 |   0.948 |\n",
+                    "| 10 | sherry.ayleigh@aol.com     | problem2    | 2018-12-06 08:32:21 | 2018-12-06 11:30:28 |   1.439 |\n",
+                    "| 11 | sherry.ayleigh@aol.com     | problem5    | 2018-12-06 08:32:21 | 2018-12-06 13:34:13 |   2.062 |\n",
+                    "| 12 | sherry.ayleigh@aol.com     | problem4    | 2018-12-06 08:32:21 | 2018-12-06 17:53:48 |   4.326 |\n",
+                    "| 13 | sherry.ayleigh@aol.com     | problem3    | 2018-12-06 08:32:21 | 2018-12-06 20:19:21 |   2.426 |\n",
+                    "\n",
+                    "Observe the ordering by `'Email'` and `'Submit'` in ascending order. Also observe that the values in `'Hours'` are rounded to 3 decimal digits and correspond to differences in submission times (and submission to start time for the first entry)."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "84"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 7 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "86"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "<!-- Test Cell Boilerplate -->\n",
+                    "## Ex. 7 test ##\n",
+                    "The cell below will test your solution for Exercise 7. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "87"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:05.375641Z",
+                        "start_time": "2023-12-07T06:33:04.776709Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex7",
+                        "locked": true,
+                        "points": "3",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex7\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_7', \n",
+                    "    'func': sequence_submissions, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'tdf':{\n",
+                    "            'dtype':'df', # data type of param.\n",
+                    "            'check_modified':True,\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': True, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 2*10 ** (-3)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "88"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 7 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `hours_by_exid`. It is the result of a correct implementation of `clean_times_colnames` when run on `hours_by_exid` from the full dataset. Subsequent cells use it, so please run this cell regardless of whether you completed this exercise."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "89"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:05.395526Z",
+                        "start_time": "2023-12-07T06:33:05.376604Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "hours_by_exid = cse6040.utils.load_obj_from_file('hours.dill')\n",
+                    "\n",
+                    "# Example:\n",
+                    "display(hours_by_exid['exam1'].head())\n",
+                    "hours_by_exid['exam1'].info()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "90"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 8 (**3 pts**): `merge_gt` #\n",
+                    "\n",
+                    "Given a tibble `pointsdf` of earned points (per Ex. 2) and another tibble `hoursdf` of sequenced hours-per-problem (per Ex. 7), complete the function,\n",
+                    "```python\n",
+                    "def merge_gt(pointsdf, hoursdf):\n",
+                    "    ...\n",
+                    "```\n",
+                    "so that it merges these into a single tibble formatted as described below.\n",
+                    "\n",
+                    "**Inputs:**\n",
+                    "- `pointsdf`: A tibble of earned points, as computed by Exercise 2. It should have the columns, `'Email'`, one or more columns named `'problem#'` where `#` is an integer string, and `'Earned'`.\n",
+                    "- `'hoursdf'`: A tibble of sequenced hours-per-problem, as computed in Exercise 7. It should have the columns, `'Email'`, `'Milestone'`, `'Start'`, `'Submit'`, and `'Hours'`.\n",
+                    "\n",
+                    "**Your tasks:**\n",
+                    "- Melt a copy of `pointsdf` so that its `'problem#'` columns become values of a new column named `'Milestone'` and the point values become a new column named `'Points'`. The `'Points'` column should hold floats.\n",
+                    "- Merge this melted result with `hoursdf` on the common `'Email'` and `'Milestone'` key-columns. (Use an inner-join\/merge so that only keys that match both inputs are retained.)\n",
+                    "- Finally, sort this result by `'Email'` and `'Submit'` in ascending order.\n",
+                    "\n",
+                    "**Output:** Return the result as a new tibble with the columns `'Email'`, `'Start'`, `'Submit'`, `'Milestone'`, `'Points'`, and `'Hours'`. You should not modify either input, `pointsdf` or `hoursdf`."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "91"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 8 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "92"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:05.426809Z",
+                        "start_time": "2023-12-07T06:33:05.396519Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Define demo inputs ###\n",
+                    "demo_pointsdf_ex8 = cse6040.utils.load_obj_from_file('demo_xdf_ex8.dill')['pointsdf']\n",
+                    "demo_hoursdf_ex8 = cse6040.utils.load_obj_from_file('demo_xdf_ex8.dill')['hoursdf']\n",
+                    "\n",
+                    "print(\"* `demo_pointsdf_ex8`:\")\n",
+                    "display(demo_pointsdf_ex8)\n",
+                    "\n",
+                    "print(\"* `demo_hoursdf_ex8`:\")\n",
+                    "display(demo_hoursdf_ex8)"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "93"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "In the above inputs, observe that only `'justin.jernee@gatech.edu'` has data in both the `points` and `hours` tibbles. Therefore, the merged result will only include that student's data, since we are using an inner merge. For this input, the result is:\n",
+                    "\n",
+                    "|    | Email                    |   Earned | Milestone   |   Points | Start               | Submit              |   Hours |\n",
+                    "|---:|:-------------------------|---------:|:------------|---------:|:--------------------|:--------------------|--------:|\n",
+                    "|  0 | justin.jernee@gatech.edu |       40 | problem2    |        2 | 2018-12-08 10:53:50 | 2018-12-08 15:12:42 |   4.314 |\n",
+                    "|  1 | justin.jernee@gatech.edu |       40 | problem0    |       10 | 2018-12-08 10:53:50 | 2018-12-08 19:21:39 |   4.15  |\n",
+                    "|  2 | justin.jernee@gatech.edu |       40 | problem1    |       10 | 2018-12-08 10:53:50 | 2018-12-08 20:16:38 |   0.916 |\n",
+                    "|  3 | justin.jernee@gatech.edu |       40 | problem5    |        5 | 2018-12-08 10:53:50 | 2018-12-09 13:53:43 |  17.618 |\n",
+                    "|  4 | justin.jernee@gatech.edu |       40 | problem3    |       10 | 2018-12-08 10:53:50 | 2018-12-09 20:06:24 |   6.211 |\n",
+                    "|  5 | justin.jernee@gatech.edu |       40 | problem4    |        3 | 2018-12-08 10:53:50 | 2018-12-09 22:08:52 |   2.042 |\n",
+                    "\n",
+                    "Observe the ordering of the rows. The problems appear in ascending order of submission time, per the sorting requirement of this exercise."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "94"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 8 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "96"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "<!-- Test Cell Boilerplate -->\n",
+                    "## Ex. 8 test ##\n",
+                    "The cell below will test your solution for Exercise 8. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "97"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:07.249582Z",
+                        "start_time": "2023-12-07T06:33:06.510435Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex8",
+                        "locked": true,
+                        "points": "3",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex8\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_8', \n",
+                    "    'func': merge_gt, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'pointsdf':{\n",
+                    "            'dtype':'df', # data type of param.\n",
+                    "            'check_modified':True,\n",
+                    "        },\n",
+                    "        'hoursdf':{\n",
+                    "            'dtype':'df', # data type of param.\n",
+                    "            'check_modified':True,\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': True, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 10 ** (-6)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "98"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 8 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `merged_by_exid`. It is the result of a correct implementation of `merge_gt` when run on `earned_by_exid` and `hours_by_exid` from the full dataset. Subsequent cells use it, so please run this cell regardless of whether you completed this exercise."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "99"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:07.273101Z",
+                        "start_time": "2023-12-07T06:33:07.250717Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "merged_by_exid = cse6040.utils.load_obj_from_file('merged.dill')\n",
+                    "\n",
+                    "# Example:\n",
+                    "display(merged_by_exid['exam1'].head())\n",
+                    "merged_by_exid['exam1'].info()"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "100"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 9 (**2 pts**): `concat_exams` #\n",
+                    "\n",
+                    "Exercise 8 produces a (merged) dataframe for _each_ exam. But when we have multiple exams, we may want to analyze them all at once.\n",
+                    "\n",
+                    "Suppose you are given a dictionary of exams, `df_by_exid`, whose keys are exam IDs (strings) and values are dataframes. Complete the function,\n",
+                    "```python\n",
+                    "def concat_exams(df_by_exid):\n",
+                    "    ...\n",
+                    "```\n",
+                    "to \"concatenate\" these as explained below.\n",
+                    "\n",
+                    "**Input:** `df_by_exid`. If `exid` is a string exam ID, then `df_by_exid[exid]` is a dataframe associated with that exam. Assume that all dataframes in `df_by_exid` have the same columns.\n",
+                    "\n",
+                    "**Output:**\n",
+                    "- Return a new combined tibble formed by \"stacking\" these dataframes one on top of the other.\n",
+                    "- To tell which rows came from which dataframe, include a column named `'Exam'` whose value records the originating `exid` key.\n",
+                    "\n",
+                    "**Comments\/hints:**\n",
+                    "- You are asked to return a tibble, so remember be sure your returned output has a clean index.\n",
+                    "- As long as the `'Exam'` value is set correctly, the ordering of rows and columns does **not** matter.\n",
+                    "- Remember that you should **not** modify any of the input dataframes! If you do, you may observe strange behavior or cause the autograder to fail.\n",
+                    "- You may assume that all input dataframes are nonempty. However, you should **not** assume anything else about what keys exist or what the columns of the input dataframe are, other than all dataframes will have the same columns."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "101"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 9 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "102"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:07.304157Z",
+                        "start_time": "2023-12-07T06:33:07.274148Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Define demo inputs ###\n",
+                    "demo_df_by_exid_ex9 = cse6040.utils.load_obj_from_file('demo_df_by_exid_ex9.dill')\n",
+                    "\n",
+                    "for exid, df in demo_df_by_exid_ex9.items():\n",
+                    "    print(f\"\\n*** exid = '{exid}' ***\")\n",
+                    "    display(demo_df_by_exid_ex9[exid])"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "103"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "For the preceding inputs, a valid concatenated output is:\n",
+                    "\n",
+                    "|    | Start               |   Points |   Earned | Email                            | Submit              | Milestone   |   Hours | Exam   |\n",
+                    "|---:|:--------------------|---------:|---------:|:---------------------------------|:--------------------|:------------|--------:|:-------|\n",
+                    "|  0 | 2018-12-09 08:55:36 |      2   |     38   | chelsea.dilann@gatech.edu        | 2018-12-10 11:17:14 | problem2    |   8.557 | exam3  |\n",
+                    "|  1 | 2018-12-08 12:27:33 |      5.5 |     25.5 | kristopher.erandi@gmail.com      | 2018-12-09 16:09:17 | problem0    |   2.831 | exam3  |\n",
+                    "|  2 | 2018-09-30 01:05:14 |     10   |     45   | meredith.rakyla@hotmail.com      | 2018-09-30 19:11:33 | problem2    |   3.386 | exam1  |\n",
+                    "|  3 | 2018-09-28 16:21:04 |     10   |     45   | stacy.loneta@gmail.com           | 2018-09-28 17:51:52 | problem0    |   1.513 | exam1  |\n",
+                    "|  4 | 2018-11-03 20:05:45 |      2   |     22   | leta.kartier@gmail.com           | 2018-11-05 05:16:51 | problem1    |   2.097 | exam2  |\n",
+                    "|  5 | 2018-11-04 20:02:24 |      5   |     16   | christopher.jullianne@gatech.edu | 2018-11-05 10:51:45 | problem0    |  14.822 | exam2  |\n",
+                    "|  6 | 2018-11-03 06:59:28 |     10   |     50   | lola.fysher@gmail.com            | 2018-11-03 08:06:09 | problem1    |   1.111 | exam2  |\n",
+                    "|  7 | 2018-11-03 10:19:14 |     10   |     39   | susan.tedrina@gatech.edu         | 2018-11-04 18:28:46 | problem3    |   1.337 | exam2  |"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "104"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 9 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "106"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "<!-- Test Cell Boilerplate -->\n",
+                    "## Ex. 9 test ##\n",
+                    "The cell below will test your solution for Exercise 9. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "107"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:09.258872Z",
+                        "start_time": "2023-12-07T06:33:08.706688Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex9",
+                        "locked": true,
+                        "points": "2",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex9\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_9', \n",
+                    "    'func': concat_exams, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'df_by_exid':{\n",
+                    "            'dtype':'dict', # data type of param.\n",
+                    "            'check_modified':False, # @TODO: FIXME\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': False, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 10 ** (-6)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "108"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 9 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `concatdf`. It is the result of a correct implementation of `concat_exams` when run on `merged_by_exid` from the full dataset. Subsequent cells use it, so please run this cell regardless of whether you completed this exercise."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "109"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:09.526834Z",
+                        "start_time": "2023-12-07T06:33:09.259854Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "concatdf = cse6040.utils.load_obj_from_file('concat.dill')\n",
+                    "concatdf"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "110"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 10 (**2 pts**): `summarize_exams` #\n",
+                    "\n",
+                    "Suppose you are given `df`, a concatenated dataframe like the one that produced in Ex. 9. Complete the function,\n",
+                    "```python\n",
+                    "def summarize_exams(df):\n",
+                    "    ...\n",
+                    "```\n",
+                    "so that it determines the mean exam score and mean time to complete the exam for every exam, returning the result as a dataframe (see below).\n",
+                    "\n",
+                    "**Input:** A dataframe, similar to the output of Exercise 9. Each row gives the data for a (student, exam, problem) triple, but the **only** columns provided are:\n",
+                    "- `'Email'` (string): a student email address\n",
+                    "- `'Exam'` (string): the ID of an exam\n",
+                    "- `'Milestone'` (string): the problem number\n",
+                    "- `'Points'` (float): the points scored on that problem (milestone) for that exam\n",
+                    "- `'Hours'` (float): the estimated number of hours spent on that problem for that exam\n",
+                    "\n",
+                    "**Your task:** For each student and exam, you need to determine their total points and total time. Then for each exam, you need to calculate the **average (mean)** total points and total time taken over all students.\n",
+                    "\n",
+                    "**Output:** Return a pandas dataframe with three columns:\n",
+                    "- `'Exam'` (string): the exam ID\n",
+                    "- `'Points'` (float): the total points for that exam averaged over all students\n",
+                    "- `'Hours'` (float): the total time in hours for that exam averaged over all students\n",
+                    "\n",
+                    "**Comments\/hints:** These averages you are to report are by exam **taken over all students**, not over all (student, problem) pairs!"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "111"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 10 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "112"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:09.552116Z",
+                        "start_time": "2023-12-07T06:33:09.528358Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Define demo inputs ###\n",
+                    "\n",
+                    "demo_df_ex10 = cse6040.utils.load_obj_from_file('demo_df_ex10.dill')\n",
+                    "demo_df_ex10"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "113"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "<!-- Expected demo output text block -->\n",
+                    "The above input should produce:\n",
+                    "\n",
+                    "|    | Exam   |   Points |   Hours |\n",
+                    "|---:|:-------|---------:|--------:|\n",
+                    "|  0 | exam1  |       45 | 14.3085 |\n",
+                    "|  1 | exam3  |       42 | 31.255  |\n",
+                    "\n",
+                    "As a spot check, observe that the input dataset has two students. Consider their `'exam3'` scores: student `'matthew.monise@hotmail.com'` got a total of 38 points and `'paul.laconya@gmail.com'` got 46 points, yielding an average of (38+46)\/2 = 42 points.\n",
+                    "<!-- Include any shout outs here -->"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "114"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 10 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "116"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "## Ex. 10 test ##\n",
+                    "\n",
+                    "The cell below will test your solution for Exercise 10. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "117"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:11.009574Z",
+                        "start_time": "2023-12-07T06:33:10.589049Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex10",
+                        "locked": true,
+                        "points": "2",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex10\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_10', \n",
+                    "    'func': summarize_exams, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'df':{\n",
+                    "            'dtype':'df', # data type of param.\n",
+                    "            'check_modified':True,\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': False, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 10 ** (-6)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "118"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 10 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `exam_summary`. It is the result of a correct implementation of `summarize_exams` when run on `concatdf` from the full dataset."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "119"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:11.025072Z",
+                        "start_time": "2023-12-07T06:33:11.010735Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "exam_summary = cse6040.utils.load_obj_from_file('exam_summary.dill')\n",
+                    "exam_summary"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "120"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "# Final task: A simple regression #\n",
+                    "\n",
+                    "For the case of three exams, the instructor would like to know whether the first two scores and the timing numbers can predict the third exam score. To carry out this analysis, the instructor needs to build a data matrix and wants your help."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "121"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "exercise_text"
+                    ]
+                },
+                "source": [
+                    "# Ex. 11 (**3 pts**): `form_data_table` #\n",
+                    "\n",
+                    "Suppose you are given the same input as Ex. 10, that is, a concatenated dataframe `df` like the one that produced in Ex. 9. Complete the function,\n",
+                    "```python\n",
+                    "def form_data_table(df):\n",
+                    "    ...\n",
+                    "```\n",
+                    "so that it constructs a dataframe whose values will (later) become the entries of a linear-regression data matrix.\n",
+                    "\n",
+                    "**Input:** The same dataframe as Ex. 10. Each row gives the data for a (student, exam, problem) triple, but the **only** columns provided are:\n",
+                    "- `'Email'` (string): a student email address\n",
+                    "- `'Exam'` (string): the ID of an exam\n",
+                    "- `'Milestone'` (string): the problem number\n",
+                    "- `'Points'` (float): the points scored on that problem (milestone) for that exam\n",
+                    "- `'Hours'` (float): the estimated number of hours spent on that problem for that exam\n",
+                    "\n",
+                    "**Output:** Construct and return a new dataframe where each row corresponds with a student, and the columns are as follows:\n",
+                    "1. `'Email'` (string): The student email. There will be one row per student in the output.\n",
+                    "2. `'Points#'` (float): One column of total points scored for **each exam** present in the input. For example, if `df` has data for `'exam2'` and `'exam3'`, then the output should have `'Points2'` and `'Points3'` colums, with the values being the total points earned by the student on the corresponding exam.\n",
+                    "3. `'Hours#'` (float): Similarly, one column of total exam time for **each exam** present in the input.\n",
+                    "\n",
+                    "**As a final step, if there are any NaNs, drop the corresponding rows.**\n",
+                    "\n",
+                    "The idea behind this format is that each student will be an \"observation\" or \"sample\" for linear regression, and the columns will serve as predictors or features.\n",
+                    "\n",
+                    "**Comments\/hints:** As usual, you should not modify the input dataframe, `df`."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "122"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 11 demo input ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "123"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:11.041454Z",
+                        "start_time": "2023-12-07T06:33:11.026080Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_data"
+                    ]
+                },
+                "outputs": [],
+                "source": [
+                    "### Define demo inputs ###\n",
+                    "demo_df_ex11 = cse6040.utils.load_obj_from_file('demo_df_ex10.dill')\n",
+                    "demo_df_ex11"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "124"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "demo_output_md"
+                    ]
+                },
+                "source": [
+                    "<!-- Expected demo output text block -->\n",
+                    "For the sample input above, a correct implementation would produce:\n",
+                    "\n",
+                    "|    | Email                      |   Hours1 |   Hours3 |   Points1 |   Points3 |\n",
+                    "|---:|:---------------------------|---------:|---------:|----------:|----------:|\n",
+                    "|  0 | matthew.monise@hotmail.com |   16.349 |   35.548 |        45 |        38 |\n",
+                    "|  1 | paul.laconya@gmail.com     |   12.268 |   26.962 |        45 |        46 |\n",
+                    "\n",
+                    "This format makes it easy to, say, try to apply one of our models, like using linear regression to predict `'Points3'` from `'Hours2'` and `'Points2'`\u2014assuming that is even a good model, which it might not be!\n",
+                    "<!-- Include any shout outs here -->"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "125"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 11 your code ##"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "127"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "test_data_boilerplate"
+                    ]
+                },
+                "source": [
+                    "## Ex. 11 test ##\n",
+                    "\n",
+                    "The cell below will test your solution for Exercise 10. The testing variables will be available for debugging under the following names in a dictionary format.\n",
+                    "- `input_vars` - Input variables for your solution. \n",
+                    "- `original_input_vars` - Copy of input variables from prior to running your solution. These _should_ be the same as `input_vars` - otherwise the inputs were modified by your solution.\n",
+                    "- `returned_output_vars` - Outputs returned by your solution.\n",
+                    "- `true_output_vars` - The expected output. This _should_ \"match\" `returned_output_vars` based on the question requirements - otherwise, your solution is not returning the correct output. "
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "TestAutoGrading",
+                "indx": "128"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:12.659696Z",
+                        "start_time": "2023-12-07T06:33:12.134713Z"
+                    },
+                    "nbgrader": {
+                        "grade": true,
+                        "grade_id": "ex11",
+                        "locked": true,
+                        "points": "3",
+                        "solution": false
+                    },
+                    "tags": []
+                },
+                "outputs": [],
+                "source": [
+                    "### test_cell_ex11\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "import dill\n",
+                    "import hashlib\n",
+                    "with open('resource\/asnlib\/public\/hash_check.pkl', 'rb') as f:\n",
+                    "    hash_check = dill.load(f)\n",
+                    "for fname in ['testers.py', '__init__.py', 'test_utils.py']:\n",
+                    "    hash_check(f'tester_fw\/{fname}', f'resource\/asnlib\/public\/{fname}')\n",
+                    "del hash_check\n",
+                    "del dill\n",
+                    "del hashlib\n",
+                    "### END HIDDEN TESTS\n",
+                    "from tester_fw.testers import Tester\n",
+                    "\n",
+                    "conf = {\n",
+                    "    'case_file':'tc_11', \n",
+                    "    'func': form_data_table, # replace this with the function defined above\n",
+                    "    'inputs':{ # input config dict. keys are parameter names\n",
+                    "        'df':{\n",
+                    "            'dtype':'df', # data type of param.\n",
+                    "            'check_modified':True,\n",
+                    "        }\n",
+                    "    },\n",
+                    "    'outputs':{\n",
+                    "        'output_0':{\n",
+                    "            'index':0,\n",
+                    "            'dtype':'df',\n",
+                    "            'check_dtype': True,\n",
+                    "            'check_col_dtypes': True, # Ignored if dtype is not df\n",
+                    "            'check_col_order': False, # Ignored if dtype is not df\n",
+                    "            'check_row_order': False, # Ignored if dtype is not df\n",
+                    "            'check_column_type': True, # Ignored if dtype is not df\n",
+                    "            'float_tolerance': 10 ** (-6)\n",
+                    "        }\n",
+                    "    }\n",
+                    "}\n",
+                    "tester = Tester(conf, key=b'It2jBzT52UbvyXCvc19bZBXTaLtU-OurcEtWwuHet8M=', path='resource\/asnlib\/publicdata\/')\n",
+                    "for _ in range(70):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "\n",
+                    "### BEGIN HIDDEN TESTS\n",
+                    "tester = Tester(conf, key=b'dRaQLzH9Dx27yR5MBt5Iy3HBuRaSpg1bXvN8NFqZ8j4=', path='resource\/asnlib\/publicdata\/encrypted\/')\n",
+                    "for _ in range(20):\n",
+                    "    try:\n",
+                    "        tester.run_test()\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "    except:\n",
+                    "        (input_vars, original_input_vars, returned_output_vars, true_output_vars) = tester.get_test_vars()\n",
+                    "        raise\n",
+                    "### END HIDDEN TESTS\n",
+                    "print('Passed! Please submit.')"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "129"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "## Ex. 11 RUNME (precomputed solutions) ##\n",
+                    "\n",
+                    "The cell below creates a precomputed object, `data_table`. It is the result of a correct implementation of `form_data_table` when run on `concatdf` from the full dataset."
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "130"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:12.679337Z",
+                        "start_time": "2023-12-07T06:33:12.660836Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "data_table = cse6040.utils.load_obj_from_file('data_table.dill')\n",
+                    "data_table"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "131"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    },
+                    "tags": [
+                        "fin"
+                    ]
+                },
+                "source": [
+                    "# Fin (+ postscript) #\n",
+                    "\n",
+                    "If you have made it this far, congratulations on completing the exam. **Don't forget to submit!**"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "132"
+            },
+            "cell": {
+                "cell_type": "markdown",
+                "metadata": {
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "source": [
+                    "**Postscript:** We went through a lot of work in this exam to get the data table. So if we try to regress, say, `'Points3'` from the other columns, how well does that work? Here is a code fragment to check. What does the result say?"
+                ]
+            }
+        },
+        {
+            "voc": {
+                "type": "ReadOnly",
+                "indx": "133"
+            },
+            "cell": {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "ExecuteTime": {
+                        "end_time": "2023-12-07T06:33:13.260783Z",
+                        "start_time": "2023-12-07T06:33:12.680374Z"
+                    },
+                    "nbgrader": {
+                        "grade": false,
+                        "locked": true,
+                        "solution": false
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "# Predictors:\n",
+                    "data_cols = data_table[['Points1', 'Hours1', 'Points2', 'Hours2']]\n",
+                    "X = data_cols.values\n",
+                    "X \/= X.max(axis=0) # Normalize columns\n",
+                    "\n",
+                    "# Response:\n",
+                    "resp_col = 'Points3'\n",
+                    "y = data_table[resp_col].values\n",
+                    "y \/= y.max()\n",
+                    "\n",
+                    "from sklearn.linear_model import LinearRegression\n",
+                    "model_type = LinearRegression(fit_intercept=True, positive=True)\n",
+                    "model = model_type.fit(X, y)\n",
+                    "\n",
+                    "print(\"* Predictors:\", data_cols)\n",
+                    "print(\"* Response:\", resp_col)\n",
+                    "print(\"* Model coefficients:\", model.coef_)\n",
+                    "print(\"* Model intercept:\", model.intercept_)\n",
+                    "\n",
+                    "y_pred = model.predict(X)\n",
+                    "print(f\"* Mean relative error: {abs((y_pred - y)\/y).mean()*100:.1f}%\")"
+                ]
+            }
+        }
+    ],
+    "vocdata": {
+        "cell_count": "134",
+        "origin": "script"
+    }
+}
