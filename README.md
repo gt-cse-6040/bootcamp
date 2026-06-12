@@ -1,8 +1,8 @@
 # Bootcamp Presentation Materials
 
-- [Bootcamp_Ground_Rules_v2.pdf](https://github.com/gt-cse-6040/bootcamp/blob/main/presentation_materials/Bootcamp_Ground_Rules_v2.pdf?raw=1)
-- [Course_and_Bootcamp_Introduction_v2.pdf](https://github.com/gt-cse-6040/bootcamp/blob/main/presentation_materials/Course_and_Bootcamp_Introduction_v2.pdf?raw=1)
-- [colab_for_bootcamp.pdf](https://github.com/gt-cse-6040/bootcamp/blob/main/presentation_materials/colab_for_bootcamp.pdf?raw=1)
+- [Bootcamp_Ground_Rules_v2.pdf](https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/presentation_materials/Bootcamp_Ground_Rules_v2.pdf)
+- [Course_and_Bootcamp_Introduction_v2.pdf](https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/presentation_materials/Course_and_Bootcamp_Introduction_v2.pdf)
+- [colab_for_bootcamp.pdf](https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/presentation_materials/colab_for_bootcamp.pdf)
 
 # Colab links
 
