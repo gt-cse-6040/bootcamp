@@ -1,0 +1,72 @@
+# Bootcamp Presentation Materials
+
+- [Bootcamp_Ground_Rules_v2.pdf](https://github.com/gt-cse-6040/bootcamp/blob/main/presentation_materials/Bootcamp_Ground_Rules_v2.pdf?raw=1)
+- [Course_and_Bootcamp_Introduction_v2.pdf](https://github.com/gt-cse-6040/bootcamp/blob/main/presentation_materials/Course_and_Bootcamp_Introduction_v2.pdf?raw=1)
+- [colab_for_bootcamp.pdf](https://github.com/gt-cse-6040/bootcamp/blob/main/presentation_materials/colab_for_bootcamp.pdf?raw=1)
+
+# Colab links
+
+## MPE
+
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/MPE/MPE_3.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/MPE/MPE_3.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/MPE/MPE_6.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/MPE/MPE_6.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/MPE/MPE_7.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/MPE/MPE_7.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/MPE/MPE_9.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/MPE/MPE_9.ipynb)
+
+## numpy
+
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/intro_to_array_shapes.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/intro_to_array_shapes.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/intro_to_numpy.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/intro_to_numpy.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_additional_functionality.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_additional_functionality.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_argsort_sort.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_argsort_sort.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_boolean_mask.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_boolean_mask.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_broadcasting.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_broadcasting.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_multiply_dot_matrix_multiplication.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/numpy/numpy_multiply_dot_matrix_multiplication.ipynb)
+
+## pandas
+
+
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/pandas/groupby_apply_nlargest_boolean_mask.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/pandas/groupby_apply_nlargest_boolean_mask.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/pandas/pandas_functions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/pandas/pandas_functions.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/pandas/pandas_groupby_aggregation.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/pandas/pandas_groupby_aggregation.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/pandas/pandas_loc_iloc.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/pandas/pandas_loc_iloc.ipynb)
+
+## python
+
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/helper_functions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/helper_functions.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/intro_dictionaries_1_v2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/intro_dictionaries_1_v2.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/intro_dictionaries_2_v2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/intro_dictionaries_2_v2.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/lambda_functions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/lambda_functions.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/list_and_dict_comprehensions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/list_and_dict_comprehensions.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/math_as_code.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/math_as_code.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/nested_data_exercises.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/nested_data_exercises.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/nested_data.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/nested_data.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/problem_solving_methodology.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/problem_solving_methodology.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/sorting.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/sorting.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/zip_enumerate.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/python/zip_enumerate.ipynb)
+
+## regex
+
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/regex/mpe_1.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/regex/mpe_1.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/regex/mpe_2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/regex/mpe_2.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/regex/regex_intro.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/regex/regex_intro.ipynb)
+
+## sql
+
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb0_SQL_syllabus.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb0_SQL_syllabus.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb1_SQL_exam_format.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb1_SQL_exam_format.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb2_SQL_info_discovery.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb2_SQL_info_discovery.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb3_SQL_aggregate.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb3_SQL_aggregate.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb4_SQL_NULLs.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb4_SQL_NULLs.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb0_SQL_string_functions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb0_SQL_string_functions.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb1_SQL_case_functions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb1_SQL_case_functions.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb2_SQL_dates.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb2_SQL_dates.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb3_SQL_string_case_exercise.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb3_SQL_string_case_exercise.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb1_SQL_SUBQ_CTE_TT.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb1_SQL_SUBQ_CTE_TT.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb2_SQL_SUBQUERIES.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb2_SQL_SUBQUERIES.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb3_SQL_CTEs.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb3_SQL_CTEs.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb4_SQL_TempTables.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb4_SQL_TempTables.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb0_SQL_Intro_to_university_database.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb0_SQL_Intro_to_university_database.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb)
+- [https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb)
+
