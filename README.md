@@ -70,3 +70,17 @@
 - [/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb)
 - [/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb)
 
+# Self-Assessment
+
+- [/self_assessments/self_assessment.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/self_assessment.ipynb)
+- [/self_assessments/self_assessment_with_solutions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/self_assessment_with_solutions.ipynb)
+
+## Foundation Knowledge
+
+- [/self_assessments/foundation_knowledge/lists.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/foundation_knowledge/lists.ipynb)
+- [/self_assessments/foundation_knowledge/loops.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/foundation_knowledge/loops.ipynb)
+- [/self_assessments/foundation_knowledge/python_data_types_functions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/foundation_knowledge/python_data_types_functions.ipynb)
+- [/self_assessments/foundation_knowledge/range.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/foundation_knowledge/range.ipynb)
+- [/self_assessments/foundation_knowledge/sets.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/foundation_knowledge/sets.ipynb)
+- [/self_assessments/foundation_knowledge/tuples.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/foundation_knowledge/tuples.ipynb)
+- [/self_assessments/foundation_knowledge/variable_naming_comments_readability_error_handling.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/self_assessments/foundation_knowledge/variable_naming_comments_readability_error_handling.ipynb)
