@@ -1,3 +1,5 @@
+<img alt="Welcome to CSE-6040 Bootcamp" src="https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/assets/logo.gif" />
+
 # Bootcamp Presentation Materials
 
 - [/presentation_materials/Bootcamp_Ground_Rules_v2.pdf](https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/presentation_materials/Bootcamp_Ground_Rules_v2.pdf)
