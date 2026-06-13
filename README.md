@@ -1,6 +1,6 @@
 # CSE-6040 Bootcamp
 
-<img alt="Welcome to CSE-6040 Bootcamp" src="https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/assets/logo.gif" width="1600" />
+<img alt="Welcome to CSE-6040 Bootcamp" src="https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/assets/graphics/logo.gif" width="1600" />
 
 # Bootcamp Presentation Materials
 
