@@ -7,6 +7,7 @@
 - [/presentation_materials/Bootcamp_Ground_Rules_v2.pdf](https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/presentation_materials/Bootcamp_Ground_Rules_v2.pdf)
 - [/presentation_materials/Course_and_Bootcamp_Introduction_v2.pdf](https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/presentation_materials/Course_and_Bootcamp_Introduction_v2.pdf)
 - [/presentation_materials/colab_for_bootcamp.pdf](https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/presentation_materials/colab_for_bootcamp.pdf)
+- [/presentation_materials/llms-4-learning.pdf](https://raw.githubusercontent.com/gt-cse-6040/bootcamp/refs/heads/main/presentation_materials/llms-4-learning.pdf)
 
 # Self-Assessment
 
