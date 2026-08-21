@@ -92,8 +92,8 @@
 - ~~[/notebooks/sql/SQL4nb0_SQL_Intro_to_university_database.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb0_SQL_Intro_to_university_database.ipynb)~~
 - ~~[/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb)~~
 - [/notebooks/sql/SQL4nb0_SQL_Window_Functions_Rank.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb0_SQL_Window_Functions_Rank.ipynb)
+- [/notebooks/sql/SQL4nb1_SQL_Window_Functions_Sum_Lead_Lag.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag.ipynb)
 - ~~[/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb)~~
-- [/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag.ipynb)
 
 ## troubleshooting
 
