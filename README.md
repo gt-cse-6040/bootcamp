@@ -76,7 +76,9 @@
 
 - [/notebooks/sql/SQL1nb0_SQL_syllabus.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb0_SQL_syllabus.ipynb)
 - [/notebooks/sql/SQL1nb1_SQL_exam_format.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb1_SQL_exam_format.ipynb)
-- [/notebooks/sql/SQL1nb2_SQL_info_discovery.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb2_SQL_info_discovery.ipynb)
+- ~~[/notebooks/sql/SQL1nb2_SQL_info_discovery.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb2_SQL_info_discovery.ipynb)~~
+- [/notebooks/sql/SQL1nb2_DB_Browser.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb2_DB_Browser.ipynb)
+- [/notebooks/sql/SQL1nb3_Order_of_ops.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb3_Order_of_ops.ipynb)
 - [/notebooks/sql/SQL1nb3_SQL_aggregate.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb3_SQL_aggregate.ipynb)
 - [/notebooks/sql/SQL1nb4_SQL_NULLs.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL1nb4_SQL_NULLs.ipynb)
 - [/notebooks/sql/SQL2nb0_SQL_string_functions.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL2nb0_SQL_string_functions.ipynb)
@@ -86,12 +88,18 @@
 - [/notebooks/sql/SQL3nb1_SQL_SUBQ_CTE_TT.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb1_SQL_SUBQ_CTE_TT.ipynb)
 - [/notebooks/sql/SQL3nb2_SQL_SUBQUERIES.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb2_SQL_SUBQUERIES.ipynb)
 - [/notebooks/sql/SQL3nb3_SQL_CTEs.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb3_SQL_CTEs.ipynb)
-- [/notebooks/sql/SQL3nb4_SQL_TempTables.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb4_SQL_TempTables.ipynb)
-- [/notebooks/sql/SQL4nb0_SQL_Intro_to_university_database.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb0_SQL_Intro_to_university_database.ipynb)
-- [/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb)
-- [/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb)
+- ~~[/notebooks/sql/SQL3nb4_SQL_TempTables.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL3nb4_SQL_TempTables.ipynb)~~
+- ~~[/notebooks/sql/SQL4nb0_SQL_Intro_to_university_database.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb0_SQL_Intro_to_university_database.ipynb)~~
+- ~~[/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb1_SQL_OrderOfOps_Window_Functions_Rank.ipynb)~~
+- [/notebooks/sql/SQL4nb0_SQL_Window_Functions_Rank.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb0_SQL_Window_Functions_Rank.ipynb)
+- ~~[/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag_v2.ipynb)~~
+- [/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/sql/SQL4nb2_SQL_Window_Functions_Sum_Lead_Lag.ipynb)
 
 ## troubleshooting
 
 - [/notebooks/troubleshooting/data_debugging_concepts_v2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main/notebooks/troubleshooting/data_debugging_concepts_v2.ipynb)
 - [/notebooks/troubleshooting/data_troubleshooting_example_v3.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main//notebooks/troubleshooting/data_troubleshooting_example_v3.ipynb)
+- [/notebooks/troubleshooting/test_case_vars_1.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main//notebooks/troubleshooting/test_case_vars_1.ipynb)
+- [/notebooks/troubleshooting/test_case_vars_2.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main//notebooks/troubleshooting/test_case_vars_2.ipynb)
+- [/notebooks/troubleshooting/test_case_vars_3.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main//notebooks/troubleshooting/test_case_vars_3.ipynb)
+- [/notebooks/troubleshooting/test_case_vars_4.ipynb](https://colab.research.google.com/github/gt-cse-6040/bootcamp/blob/main//notebooks/troubleshooting/test_case_vars_4.ipynb)
